@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cotizador Alvil - Cerrajería</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f2f2f2; padding: 2rem; }
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+      padding: 2rem;
+      max-width: 500px;
+      margin: auto;
+    }
+    h1 { text-align: center; color: #333; }
+    label { display: block; margin: 1rem 0 0.5rem; color: #555; }
+    select, input[type="number"] {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    .btn {
+      background: #1a73e8;
+      color: white;
+      border: none;
+      padding: 0.75rem;
+      margin-top: 1.5rem;
+      width: 100%;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .resultado { margin-top: 1.5rem; font-size: 1.1rem; color: #444; }
+    a.wa-link {
+      display: block;
+      margin-top: 1rem;
+      text-align: center;
+      background: #25D366;
+      color: white;
+      padding: 0.75rem;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Cotizador Alvil</h1>
+    <label for="servicio">Tipo de servicio:</label>
+    <select id="servicio">
+      <option value="200">Apertura de auto ($200)</option>
+      <option value="300">Cambio de combinación ($300)</option>
+      <option value="500">Control con programación ($500)</option>
+      <option value="1000">Duplicado de llave con chip ($1000)</option>
+      <option value="2000">Instalación completa ($2000)</option>
+    </select>
+
+    <label for="meses">Meses sin intereses (opcional):</label>
+    <select id="meses">
+      <option value="1">Pago de contado</option>
+      <option value="3">3 meses</option>
+      <option value="6">6 meses</option>
+      <option value="12">12 meses</option>
+    </select>
+
+    <button class="btn" onclick="cotizar()">Cotizar</button>
+
+    <div class="resultado" id="resultado"></div>
+    <a id="wa-link" class="wa-link" style="display:none;">Agendar por WhatsApp</a>
+  </div>
+
+  <script>
+    function cotizar() {
+      const precioBase = parseFloat(document.getElementById('servicio').value);
+      const meses = parseInt(document.getElementById('meses').value);
+      let total = precioBase;
+      let mensual = total / meses;
+
+      let texto = meses === 1 ?
+        `Total a pagar: $${total}` :
+        `Total a pagar: $${total}<br>Pagos mensuales de: $${mensual.toFixed(2)} por ${meses} meses.`;
+
+      document.getElementById('resultado').innerHTML = texto;
+      const mensaje = encodeURIComponent(`Hola, quiero agendar un servicio de cerrajería con un costo de $${total} en ${meses} mensualidades.`);
+      document.getElementById('wa-link').href = `https://wa.me/526271050171?text=${mensaje}`;
+      document.getElementById('wa-link').style.display = 'block';
+    }
+  </script>
+</body>
+</html>
